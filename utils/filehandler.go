@@ -3,12 +3,11 @@ package utils
 import (
 	"encoding/hex"
 	"fmt"
+	"github.com/gabriel-vasile/mimetype"
 	"io"
 	"net/http"
 	"os"
 	"path/filepath"
-
-	"github.com/gabriel-vasile/mimetype"
 )
 
 type FileType int
@@ -89,7 +88,7 @@ func HalfSplitter(originalArray []byte, lastGood int) []byte {
 		offendingBytes := make([]byte, offendingSize)
 		copy(offendingBytes, originalArray[len(originalArray)-offendingSize:])
 
-		hexDump(offendingBytes)
+		fmt.Println(hex.Dump(offendingBytes))
 		Complete = true
 	}
 
@@ -126,8 +125,14 @@ func min(a, b int) int {
 }
 
 // Print hex dump of the byte array
-func hexDump(data []byte) {
-	fmt.Println(hex.Dump(data))
+func Hexdump(data []byte, offset, length uint) string {
+
+	startIndex := int(offset)
+	endIndex := int(offset + length)
+	featureData := data[startIndex:endIndex]
+	dump := hex.Dump(featureData)
+	//fmt.Printf("%s", dump)
+	return dump
 }
 
 const (

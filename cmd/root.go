@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"os"
+	"strings"
 )
 
 type OPTS struct {
@@ -12,6 +13,7 @@ type OPTS struct {
 	file     string
 	url      string
 	filetype string
+	yarafile string
 }
 
 var opts OPTS
@@ -30,7 +32,12 @@ var rootCmd = &cobra.Command{
 		} else {
 			targetfilepath := utils.CheckFileAbs(opts.file)
 			filecontents := utils.CheckInFile(opts.url, targetfilepath)
-			utils.CheckEngine(opts.engine, opts.filetype, filecontents)
+
+			if strings.ToLower(opts.engine) == "yara" {
+				utils.ScanWithYara(opts.yarafile, filecontents)
+			} else {
+				utils.CheckEngine(opts.engine, opts.filetype, filecontents)
+			}
 		}
 
 	},
@@ -44,8 +51,9 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&opts.engine, "engine", "e", "AMSI", "Scanning engine. Options: Defender or AMSI")
+	rootCmd.PersistentFlags().StringVarP(&opts.engine, "engine", "e", "AMSI", "Scanning engine. Options: Defender or AMSI or Yara")
 	rootCmd.PersistentFlags().StringVarP(&opts.file, "file", "f", "", "Filepath, analyze a file on disk")
+	rootCmd.PersistentFlags().StringVarP(&opts.yarafile, "yarafile", "y", "", "YaraFile, Specify the Yara file for analysis")
 	rootCmd.PersistentFlags().StringVarP(&opts.url, "url", "u", "", "FileURL, analyze a file from a URL")
 	rootCmd.PersistentFlags().StringVarP(&opts.filetype, "type", "t", "", "File type to scan. Options: Bin or Script")
 
