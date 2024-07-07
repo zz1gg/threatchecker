@@ -1,5 +1,16 @@
 # ThreatChecker
 
+
+Please go to **[ThreatChecker-rust](https://github.com/zz1gg/ThreatChecker-rust) (https://github.com/zz1gg/ThreatChecker-rust)**
+
+
+> Compared to the Golang version, the Rust version is very user-friendly and doesn't have to spend time with the yara-x environment configuration and yara-x Go library. Users can simply compile the rust source code to get the program and use it. Golang calling yara-x requires some effort to compile yara-x header files and yara-x library files. Users can choose different versions according to their interests.
+
+
+--------------------------------------------------------
+
+
+
 ThreatChecker is a malware analysis tool written in Golang, can be used to detect whether a file is malicious by AMSI or Defender or Yara-X and display relevant detection results, including identifying the specific bad pieces of code, Currently, binary files and script files are supported. This version:
 
 - Identified the bytes by [Yara-X](https://virustotal.github.io/yara-x/) (https://github.com/VirusTotal/yara-x).
